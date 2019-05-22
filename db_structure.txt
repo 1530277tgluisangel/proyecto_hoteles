@@ -1,0 +1,48 @@
+habitaciones{
+	id
+	numero
+	img
+	descripcion
+	id_estado
+	id_tipo_habitacion
+}
+estado_habitaciones{
+	id
+	nombre
+	descripcion
+}
+tipo_habitaciones{
+	id
+	nombre
+	descripcion
+	precio_dia
+}
+clientes{
+	id
+	nombres
+	paterno
+	materno
+	id_tipo_cliente
+}
+tipo_clientes{
+	id
+	nombre
+	descripcion
+}
+
+reservacion{
+	id
+	id_cliente
+	id_habitacion
+	fecha_reserva
+	dias_estadia
+}
+
+usuarios{
+	id
+	nombres
+	paterno
+	materno
+	numero_empleado
+	passw
+}
