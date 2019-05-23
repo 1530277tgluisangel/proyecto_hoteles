@@ -48,7 +48,7 @@ class MvcController{
 		}
 
 	}
-
+	//Función que detecta el clic (con ayuda del protocolo POST) del botón cuyo name es 'registrar', validando esto procede a hacer una consulta con los datos ingresados en el form para ver si existen en la BD, de no ser asi se recarga el login 
 	public function c_login(){
 		if(isset($_POST['registrar'])){
 			$datos_usuario = array('usuario' => $_POST['usuario'],
@@ -56,7 +56,7 @@ class MvcController{
 			$datos = new Datos();
 			$respuesta = $datos->m_login($datos_usuario);
 			if(!empty($respuesta)){
-				$_SESSION['id_usuario']=$respuesta['id'];
+				$_SESSION['usuario']=$respuesta;
 				#header('location:index.php?action=dashboard');
 			    $URL="index.php?action=dashboard";
 			    echo "<script >document.location.href='{$URL}';</script>";
