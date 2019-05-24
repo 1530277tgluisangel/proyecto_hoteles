@@ -79,7 +79,18 @@ class MvcController{
 		$return = Datos::get_estados_habitaciones();
 		return $return;
 	}
-
+	public function insert_usuario(){
+		if(isset($_POST['guardar'])){
+			$datos_usuario = array('user_name' => $_POST['user_name'] ,
+							'passw'=>$_POST['passw'],
+							'nombres'=>$_POST['nombres'],
+							'paterno'=>$_POST['paterno'],
+							'materno'=>$_POST['materno'],
+							'id_tipo_usuario'=>$_POST['id_tipo_usuario'] );
+			$res = Datos::insert_usuario($datos_usuario);
+			return $res;
+		}
+	}
 	public function insert_habitacion(){
 		$ruta_img = "views/img/habitaciones";
 

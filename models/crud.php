@@ -18,7 +18,7 @@ require_once "conexion.php";
 
 class Datos extends Conexion{
 
-	#REGISTRO DE USUARIOS
+	#REGISTRO DE USUARIOSdf
 	#-------------------------------------
 	public function m_insert_usuario($datosModel){
 
@@ -56,6 +56,16 @@ class Datos extends Conexion{
 		$query->bindParam(":id", $id_usuario, PDO::PARAM_STR);
 		$res = $query->execute();
 		return $query->fetch();
+	}
+
+	public function insert_usuario($datos_usuario){
+		$query = Conexion::conectar()->prepare("INSERT INTO 
+					usuarios(user_name,passw,nombres,paterno,materno,id_tipo_usuario)
+					VALUES('$datos_usuario[user_name]','$datos_usuario[passw]',
+					'$datos_usuario[nombres]','$datos_usuario[paterno]',
+					'$datos_usuario[materno]','$datos_usuario[id_tipo_usuario]')");
+		$res = $query->execute();
+		return $res;
 	}
 
 	public function get_tipos_usuarios(){
