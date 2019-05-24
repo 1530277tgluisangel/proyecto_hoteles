@@ -54,12 +54,28 @@ class Datos extends Conexion{
 										WHERE id=:id");
 
 		$query->bindParam(":id", $id_usuario, PDO::PARAM_STR);
-
 		$res = $query->execute();
-
 		return $query->fetch();
 	}
 
+	public function get_tipos_usuarios(){
+		$query = Conexion::conectar()->prepare("SELECT * FROM  tipo_usuarios");
+		$query->execute();
+		$res = $query->fetchAll();
+		return $res;
+	}
+	public function get_tipos_habitaciones(){
+		$query = Conexion::conectar()->prepare("SELECT * FROM tipo_habitaciones");
+		$query->execute();
+		$return = $query->fetchAll();
+		return $return;
+	}
+	public function get_estados_habitaciones(){
+		$query = Conexion::conectar()->prepare("SELECT * FROM estado_habitaciones");
+		$query->execute();
+		$return = $query->fetchAll();
+		return $return;
+	}
 
 
 

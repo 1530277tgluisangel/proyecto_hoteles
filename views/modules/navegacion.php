@@ -107,6 +107,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
+            <li><a href="index.php?action=agregar_usuario"><i class="fa fa-fw fa-plus"></i>Agregar usuario</a></li>
             <li><a href="index.php?action=ver_usuarios"><i class="fa fa-fw fa-list"></i>Ver listado</a></li>
           </ul>
         </li>

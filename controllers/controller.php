@@ -70,6 +70,52 @@ class MvcController{
 		}
 	}
 
+	public function get_tipos_habitaciones(){
+		$return = Datos::get_tipos_habitaciones();
+		return $return;
+	}
+
+	public function get_estados_habitaciones(){
+		$return = Datos::get_estados_habitaciones();
+		return $return;
+	}
+
+	public function insert_habitacion(){
+		$ruta_img = "views/img/habitaciones";
+
+		if(isset($_POST['guardar'])){
+			$nombre_img = 'foto_habitacion';
+			if($this->subir_fichero($ruta_img,$nombre_img)){
+				return true;
+			}else
+				return false;
+		}
+		return false;
+
+	}
+
+
+	private function subir_fichero($directorio_destino, $nombre_fichero){
+	    $tmp_name = $_FILES[$nombre_fichero]['tmp_name'];
+	    echo "<br><br>".getcwd()."<br>";
+	    //si hemos enviado un directorio que existe realmente y hemos subido el archivo    
+	    if (is_dir($directorio_destino) && is_uploaded_file($tmp_name))
+	    {
+	        $img_file = $_FILES[$nombre_fichero]['name'];
+	        $img_type = $_FILES[$nombre_fichero]['type'];	        // Si se trata de una imagen   
+	        if (((strpos($img_type, "gif") || strpos($img_type, "jpeg") ||
+	 			strpos($img_type, "jpg")) || strpos($img_type, "png")))
+	        {
+	            //¿Tenemos permisos para subir la imágen?
+	            move_uploaded_file($tmp_name, $directorio_destino . '/' . $img_file);
+				#move_uploaded_file($img_file, "/temp");
+				##touch("/temp", filemtime($img_file)); 
+	        }
+	    }
+	    //Si llegamos hasta aquí es que algo ha fallado
+	    return false;
+	}
+
 	#INGRESO DE USUARIOS
 	#------------------------------------
 /*	public function ingresoUsuarioController(){
