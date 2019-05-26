@@ -18,20 +18,6 @@ require_once "conexion.php";
 
 class Datos extends Conexion{
 
-	#REGISTRO DE USUARIOSdf
-	#-------------------------------------
-	public function m_insert_usuario($datosModel){
-
-		$query = Conexion::conectar()->prepare("INSERT INTO usuarios (usuario, passw, nombre) VALUES (:usuario,:password,:nombre)");	
-		
-		$query->bindParam(":usuario", $datosModel["usuario"], PDO::PARAM_STR);
-		$query->bindParam(":password", $datosModel["password"], PDO::PARAM_STR);
-		$query->bindParam(":nombre", $datosModel["nombre"], PDO::PARAM_STR);
-
-		$res = $query->execute();
-		return $res;
-	}
-
 	public function m_login($datos_usuario){#Recibe un arreglo desde el controlador, cuyos valores de los parámetros provienen de la vista login.php, retorna un arreglo 1D dónde hayan coincidido los datos en la tabla usuarios
 		$query = Conexion::conectar()->prepare("SELECT u.id,u.user_name,u.nombres,
 					u.paterno,u.materno,u.id_tipo_usuario,
@@ -47,17 +33,70 @@ class Datos extends Conexion{
 	}
 
 	public function get_usuario_by_id($id_usuario){#Sirve para traer los datos de la tabla usuarios y tipo_usuarios mediante solamente el id_usuario
-
-		$query = Conexion::conectar()->prepare("SELECT * FROM usuarios u 
-										INNER JOIN tipo_usuarios tu 
-										ON u.id_tipo_usuario=tu.id 
-										WHERE id=:id");
-
-		$query->bindParam(":id", $id_usuario, PDO::PARAM_STR);
-		$res = $query->execute();
-		return $query->fetch();
+		$query = Conexion::conectar()->prepare("SELECT * FROM usuarios WHERE id=$id_usuario");
+		$query->execute();
+		$res = $query->fetch();
+		return $res;
 	}
 
+	public function get_cliente_by_id($id_cliente){
+		$query = Conexion::conectar()->prepare("SELECT * FROM clientes WHERE id=$id_cliente");
+		$query->execute();
+		$res = $query->fetch();
+		return $res;
+	}
+
+	public function show_clientes(){
+		$query = Conexion::conectar()->prepare("SELECT c.id,c.numero_cliente,c.nombres,c.paterno,c.materno,tc.id as id_tipo_cliente,tc.nombre as nombre_tipo FROM clientes c INNER JOIN tipo_clientes tc ON tc.id=c.id_tipo_cliente");
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	public function show_habitaciones(){
+		$query = Conexion::conectar()->prepare("SELECT h.id,h.numero,h.foto,
+			h.descripcion,eh.nombre as estado,
+			th.nombre as tipo,h.precio FROM habitaciones h
+			INNER JOIN tipo_habitaciones th
+			ON th.id=h.id_tipo_habitacion
+			INNER JOIN estado_habitaciones eh
+			ON eh.id=h.id_estado");
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	public function show_usuarios(){
+		$query = Conexion::conectar()->prepare("SELECT u.id,u.nombres,u.paterno,u.materno,u.user_name,u.passw,tu.id as id_tipo, tu.nombre as nombre_tipo
+			FROM usuarios u INNER JOIN tipo_usuarios tu ON u.id_tipo_usuario=tu.id");
+		$query->execute();
+		$res = $query->fetchAll();
+
+		return $res;
+	}
+
+	public function get_habitacion_by_id($id_habitacion){
+		$query = Conexion::conectar()->prepare("SELECT * FROM habitaciones
+				WHERE id=$id_habitacion");
+		$query->execute();
+		return $query->fetch();
+	}
+	
+	//Inserción de datos a tabla habitaciones
+	public function insert_habitacion($datos_consulta){
+		$query = Conexion::conectar()->prepare("INSERT INTO 
+			habitaciones(numero,foto,precio,descripcion,id_estado,id_tipo_habitacion)
+			VALUES('$datos_consulta[numero]','$datos_consulta[foto]','$datos_consulta[precio]','$datos_consulta[descripcion]','$datos_consulta[id_estado]','$datos_consulta[id_tipo_habitacion]')");
+		$res = $query->execute();
+		return $res;
+	}
+
+	//Inserción de datos en la tabla clientes
+	public function insert_cliente($datos_consulta){
+		$query = Conexion::conectar()->prepare("INSERT INTO clientes(numero_cliente,nombres,paterno,materno,id_tipo_cliente)VALUES('$datos_consulta[numero_cliente]','$datos_consulta[nombres]','$datos_consulta[paterno]','$datos_consulta[materno]','$datos_consulta[id_tipo_cliente]')");
+		$res = $query->execute();
+		return $res;
+	}
+
+	//Inserción de datos a tabla usuarios
 	public function insert_usuario($datos_usuario){
 		$query = Conexion::conectar()->prepare("INSERT INTO 
 					usuarios(user_name,passw,nombres,paterno,materno,id_tipo_usuario)
@@ -65,6 +104,13 @@ class Datos extends Conexion{
 					'$datos_usuario[nombres]','$datos_usuario[paterno]',
 					'$datos_usuario[materno]','$datos_usuario[id_tipo_usuario]')");
 		$res = $query->execute();
+		return $res;
+	}
+
+	public function get_tipos_clientes(){
+		$query = Conexion::conectar()->prepare("SELECT * FROM tipo_clientes");
+		$query->execute();
+		$res = $query->fetchAll();
 		return $res;
 	}
 
@@ -86,7 +132,46 @@ class Datos extends Conexion{
 		$return = $query->fetchAll();
 		return $return;
 	}
+	public function update_cliente($datos_consulta){
+		$query = Conexion::conectar()->prepare("UPDATE clientes SET
+					numero_cliente = '$datos_consulta[numero_cliente]',
+					nombres = '$datos_consulta[nombres]',
+					paterno = '$datos_consulta[paterno]',
+					materno = '$datos_consulta[materno]',
+					id_tipo_cliente = '$datos_consulta[id_tipo_cliente]'
+			WHERE id='$datos_consulta[id]'");
+		$res = $query->execute();
+		return $res;
+	}
+	public function update_usuario($datos_consulta){
+		$query = Conexion::conectar()->prepare("UPDATE usuarios SET
+				user_name = '$datos_consulta[user_name]',
+				passw = '$datos_consulta[passw]',
+				nombres = '$datos_consulta[nombres]',
+				paterno = '$datos_consulta[paterno]',
+				materno = '$datos_consulta[materno]',
+				id_tipo_usuario = $datos_consulta[id_tipo_usuario]
+			WHERE id=$datos_consulta[id]");
+		$res = $query->execute();
+		return $res;
+	}
+	public function update_habitacion($datos_consulta){
+		$query = Conexion::conectar()->prepare(" UPDATE habitaciones SET
+					numero = '$datos_consulta[numero]',
+					foto = '$datos_consulta[foto]',
+					precio = '$datos_consulta[precio]',
+					descripcion = '$datos_consulta[descripcion]',
+					id_estado = '$datos_consulta[id_estado]',
+					id_tipo_habitacion = '$datos_consulta[id_tipo_habitacion]'
+			WHERE id='$datos_consulta[id]'");
+		$res = $query->execute();
+		return $res;
+	}
 
+	public function delete_registro($id,$tabla){
+		$query = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id=$id");
+		$query->execute();
+	}
 
 
 }

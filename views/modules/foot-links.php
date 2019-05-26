@@ -31,3 +31,6 @@
 <script type="text/javascript" src="views/modules/bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script type="text/javascript" src="views/modules/dist/js/adminlte.min.js"></script>
+<!-- DataTables -->
+<script src="views/modules/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="views/modules/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
