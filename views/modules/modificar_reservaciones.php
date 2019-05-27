@@ -13,7 +13,7 @@
     
     $reservacion = MvcController::get_reservacion_by_id($id_reservacion);//Trae solamente el registro que coincida con el id enviado por parámetro
     #var_dump($reservacion);
-    $res = MvcController::update_reservacion($id_reservacion);//Valida la activación del método POST del botón 'guardar' y realiza la consulta para actualizar todos los datos de la tabla reservacion
+    $res = MvcController::update_reservacion($id_reservacion,$reservacion["id_habitacion"]);//Valida la activación del método POST del botón 'guardar' y realiza la consulta para actualizar todos los datos de la tabla reservacion
 ?>
 
 

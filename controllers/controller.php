@@ -163,7 +163,7 @@ class MvcController{
 				'fecha_reserva' => $fecha_actual,
 				'dias_estadia' => $_POST['dias_estadia']);
 			$res = Datos::insert_reservacion($datos_consulta);
-			Datos::update_habitacion_disponible($_POST['id_habitacion'],2);
+			Datos::update_estado_habitacion($_POST['id_habitacion'],2);
 			return $res;
 		}else{
 			return false;
@@ -213,16 +213,27 @@ class MvcController{
 	    return false;
 	}
 
-	public function update_reservacion($id_reservacion){
+	public function update_reservacion($id_reservacion,$id_habitacion){
 		if(isset($_POST['guardar'])){
-			$datos_consulta = array('id' => $id_reservacion,
-					'id_cliente' => $_POST['id_cliente'],
-					'id_habitacion' => $_POST['id_habitacion'],
-					'numero_reservacion' => $_POST['numero_reservacion'],
-					'fecha_reserva' => $_POST['fecha_reserva'],
-					'dias_estadia' => $_POST['dias_estadia']);
+			if($id_habitacion==$_POST['id_habitacion']){
+				$datos_consulta = array('id' => $id_reservacion,
+						'id_cliente' => $_POST['id_cliente'],
+						'id_habitacion' => $_POST['id_habitacion'],
+						'numero_reservacion' => $_POST['numero_reservacion'],
+						'fecha_reserva' => $_POST['fecha_reserva'],
+						'dias_estadia' => $_POST['dias_estadia']);
+				Datos::update_estado_habitacion($id_habitacion,2);
+			}else{
+				$datos_consulta = array('id' => $id_reservacion,
+						'id_cliente' => $_POST['id_cliente'],
+						'id_habitacion' => $id_habitacion,
+						'numero_reservacion' => $_POST['numero_reservacion'],
+						'fecha_reserva' => $_POST['fecha_reserva'],
+						'dias_estadia' => $_POST['dias_estadia']);
+				Datos::update_estado_habitacion($id_habitacion,1);
+				Datos::update_estado_habitacion($_POST['id_habitacion'],2);
+			}
 			$res = Datos::update_reservacion($datos_consulta);
-			
 			//Al terminar se manda a la vista de todos los registros
 	        $URL="index.php?action=ver_reservaciones";
 	        echo "<script >document.location.href='{$URL}';</script>";
