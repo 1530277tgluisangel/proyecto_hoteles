@@ -34,3 +34,7 @@
 <!-- DataTables -->
 <script src="views/modules/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="views/modules/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<!-- InputMask -->
+<script src="views/modules/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="views/modules/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="views/modules/plugins/input-mask/jquery.inputmask.extensions.js"></script>

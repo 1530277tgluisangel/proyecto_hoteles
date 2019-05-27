@@ -46,6 +46,20 @@ class Datos extends Conexion{
 		return $res;
 	}
 
+	public function habitaciones_disponibles(){
+		$query = Conexion::conectar()->prepare("SELECT * FROM habitaciones WHERE id_estado=1");
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	public function show_reservaciones(){
+		$query = Conexion::conectar()->prepare("SELECT c.nombres as n,c.paterno as p,c.materno as m,r.id_cliente,r.id,r.id_habitacion,h.numero as numero_habitacion,c.numero_cliente,r.dias_estadia,r.numero_reservacion,r.fecha_reserva as fecha
+			FROM reservaciones r INNER JOIN habitaciones h ON r.id_habitacion=h.id INNER JOIN clientes c ON c.id=r.id_cliente");
+		$query->execute();
+
+		return $query->fetchAll();
+	}
+
 	public function show_clientes(){
 		$query = Conexion::conectar()->prepare("SELECT c.id,c.numero_cliente,c.nombres,c.paterno,c.materno,tc.id as id_tipo_cliente,tc.nombre as nombre_tipo FROM clientes c INNER JOIN tipo_clientes tc ON tc.id=c.id_tipo_cliente");
 		$query->execute();
@@ -73,6 +87,12 @@ class Datos extends Conexion{
 		return $res;
 	}
 
+	public function get_reservacion_by_id($id_reservacion){
+		$query = Conexion::conectar()->prepare("SELECT * FROM reservaciones WHERE id=$id_reservacion");
+		$query->execute();
+		return $query->fetch();
+	}
+
 	public function get_habitacion_by_id($id_habitacion){
 		$query = Conexion::conectar()->prepare("SELECT * FROM habitaciones
 				WHERE id=$id_habitacion");
@@ -80,6 +100,12 @@ class Datos extends Conexion{
 		return $query->fetch();
 	}
 	
+	public function insert_reservacion($datos_consulta){
+		$query = Conexion::conectar()->prepare("INSERT INTO reservaciones(id_cliente,id_habitacion,numero_reservacion,fecha_reserva,dias_estadia)VALUES('$datos_consulta[id_cliente]','$datos_consulta[id_habitacion]','$datos_consulta[numero_reservacion]','$datos_consulta[fecha_reserva]','$datos_consulta[dias_estadia]')");
+		$res = $query->execute();
+		return $res;
+	}
+
 	//Inserción de datos a tabla habitaciones
 	public function insert_habitacion($datos_consulta){
 		$query = Conexion::conectar()->prepare("INSERT INTO 
@@ -132,6 +158,29 @@ class Datos extends Conexion{
 		$return = $query->fetchAll();
 		return $return;
 	}
+
+	public function update_reservacion($datos_consulta){
+		$query = Conexion::conectar()->prepare("UPDATE reservaciones SET
+				id_cliente = '$datos_consulta[id_cliente]',
+				id_habitacion = '$datos_consulta[id_habitacion]',
+				numero_reservacion = '$datos_consulta[numero_reservacion]',
+				fecha_reserva = '$datos_consulta[fecha_reserva]',
+				dias_estadia = '$datos_consulta[dias_estadia]'
+			WHERE id='$datos_consulta[id]'");
+		$res = $query->execute();
+
+		return $res;
+	}
+
+	public function update_estado_habitacion($id_habitacion,$estado){
+		$query = Conexion::conectar()->prepare("UPDATE habitaciones SET 
+					id_estado=$estado
+				WHERE id=$id_habitacion
+			");
+		$res = $query->execute();
+		return $res;
+	}
+
 	public function update_cliente($datos_consulta){
 		$query = Conexion::conectar()->prepare("UPDATE clientes SET
 					numero_cliente = '$datos_consulta[numero_cliente]',

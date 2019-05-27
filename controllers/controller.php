@@ -66,6 +66,11 @@ class MvcController{
 		return $return;
 	}
 
+	public function get_reservacion_by_id($id_reservacion){
+		$return = Datos::get_reservacion_by_id($id_reservacion);
+		return $return;
+	}
+
 	public function get_habitacion_by_id($id_habitacion){
 		$return = Datos::get_habitacion_by_id($id_habitacion);
 		return $return;
@@ -141,6 +146,39 @@ class MvcController{
 		return false;
 
 	}
+	
+	public function insert_reservacion(){
+		$fecha_actual=getdate();
+
+		$d = $fecha_actual["mday"];
+		$m = $fecha_actual["mon"];
+		$y = $fecha_actual["year"];
+
+		$fecha_actual=$y."-".$m."-".$d;
+
+		if(isset($_POST['guardar'])){
+			$datos_consulta = array('id_cliente' => $_POST['id_cliente'],
+				'id_habitacion' => $_POST['id_habitacion'],
+				'numero_reservacion' => $_POST['numero_reservacion'],
+				'fecha_reserva' => $fecha_actual,
+				'dias_estadia' => $_POST['dias_estadia']);
+			$res = Datos::insert_reservacion($datos_consulta);
+			Datos::update_habitacion_disponible($_POST['id_habitacion'],2);
+			return $res;
+		}else{
+			return false;
+		}
+	}
+
+	public function habitaciones_disponibles(){
+		$respuesta = Datos::habitaciones_disponibles();
+		return $respuesta;
+	}
+
+	public function show_reservaciones(){
+		$respuesta = Datos::show_reservaciones();
+		return $respuesta;
+	}
 
 	public function show_clientes(){
 		$respuesta = Datos::show_clientes();
@@ -175,6 +213,24 @@ class MvcController{
 	    return false;
 	}
 
+	public function update_reservacion($id_reservacion){
+		if(isset($_POST['guardar'])){
+			$datos_consulta = array('id' => $id_reservacion,
+					'id_cliente' => $_POST['id_cliente'],
+					'id_habitacion' => $_POST['id_habitacion'],
+					'numero_reservacion' => $_POST['numero_reservacion'],
+					'fecha_reserva' => $_POST['fecha_reserva'],
+					'dias_estadia' => $_POST['dias_estadia']);
+			$res = Datos::update_reservacion($datos_consulta);
+			
+			//Al terminar se manda a la vista de todos los registros
+	        $URL="index.php?action=ver_reservaciones";
+	        echo "<script >document.location.href='{$URL}';</script>";
+	        echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';
+		}
+		return false;
+	}
+
 	public function update_cliente($id_cliente){
 		if(isset($_POST['guardar'])){
 			$datos_consulta = array('id' => $id_cliente,
@@ -190,7 +246,6 @@ class MvcController{
 	        $URL="index.php?action=ver_clientes";
 	        echo "<script >document.location.href='{$URL}';</script>";
 	        echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';
-
 		}
 		return false;
 	}

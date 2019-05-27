@@ -52,10 +52,15 @@
       <ul class="sidebar-menu" data-widget="tree">
       
 
-<?php if(isset($_SESSION['usuario'])){
+<?php
+    if(isset($_SESSION['usuario'])){
         if($_SESSION['usuario']['tipo_usuario']=="admin"){?>      
         <li class="header">PROCESOS - ADMINISTRADOR</li>
-        
+<?php }else{?>
+        <li class="header">PROCESOS - RECEPCIONISTA</li>
+<?php }?>
+
+<?php if($_SESSION['usuario']['tipo_usuario']=="admin"){?>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-fw fa-male"></i> <span>Clientes</span>
@@ -107,15 +112,14 @@
         </li>
         <li><a href="index.php?action=dashboard" disable><i class="fa fa-fw fa-line-chart"></i> <span>Visualizar ganancias</span></a></li>
 <?php if($_SESSION['usuario']['tipo_usuario']=="recepcionista"){?>
-        <li class="header">PROCESOS - RECEPCIONISTA</li>
         <li><a href="index.php?action=ver_habitaciones" disable><i class="fa fa-fw fa-hotel "></i> <span>Habitaciones</span></a></li>
-<?php } } ?>
+<?php }  ?>
         
 
 <?php if(isset($_SESSION['usuario'])){
         echo '<li class="header">OTROS</li>';?>
         <li><a href="index.php?action=cerrar_sesion" disable><i class="fa fa-fw fa-sign-out"></i><span>Cerrar sesión</span></a></li>
-<?php }#else{?>
+<?php }}#else{?>
   <!--
           <li><a href="index.php?action=login" disable><i class="fa fa-fw fa-sign-in"></i><span>Iniciar sesión</span></a></li>
       <li><a href="index.php?action=registrarse" disable><i class="fa fa-fw fa-user-plus"></i><span>Registrarse</span></a></li>

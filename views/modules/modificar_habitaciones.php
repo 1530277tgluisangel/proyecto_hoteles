@@ -10,7 +10,7 @@
     $estados = MvcController::get_estados_habitaciones();//arreglo de consulta a tabla estados_habitaciones
     $habitacion = MvcController::get_habitacion_by_id($id_habitacion);
     #var_dump($habitacion);
-    var_dump($habitacion);
+    #var_dump($habitacion);
     $res = MvcController::update_habitacion($id_habitacion,$habitacion['foto']);
  ?>
 <div class="col-md-9" >
