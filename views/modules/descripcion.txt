@@ -1,0 +1,10 @@
+Comentarios generales sobre el código y los métodos realizados en el proyecto:
+
+	1. Se procuró que todos los métodos del controlador y modelo que tuvieran una relación tuvieran el mismo nombre, o iniciaran de la misma forma si cumplian una función similar aplicada a una distinta tabla.
+
+	2. De igual manera se hizo con los archivos y la forma en la que se estructuraron.
+
+	3. Se aislaron las etiquetas link y script en head-links.php y foot-links.php respectivamente. Otra sección del proyecto que fue aislada fue la barra de navegación, dentro de esta se valida el inicio de sesión y las distintas funciones que tienen los usuarios del sistema, esto se hace en el archivo navegacion.php
+
+servidor: http://167.99.171.84/taw_2019/proy_hoteles/
+repositorio: https://github.com/1530277tgluisangel/proyecto_hoteles

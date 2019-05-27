@@ -1,14 +1,14 @@
 <?php 
-    if(!isset($_SESSION['usuario'])||$_SESSION['usuario']['tipo_usuario']!='admin'){
+    if(!isset($_SESSION['usuario'])||$_SESSION['usuario']['tipo_usuario']!='admin'){//Valida que solo un administrador acceda a esta página, si no lo redirecciona al login/dashboard
         $URL="index.php?action=login";
         echo "<script >document.location.href='{$URL}';</script>";
         echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';
     }
 
     $id_cliente = $_GET['id'];
-    $tipos = MvcController::get_tipos_clientes();
-    $cliente = MvcController::get_cliente_by_id($id_cliente);
-    $res = MvcController::update_cliente($id_cliente);
+    $tipos = MvcController::get_tipos_clientes();//Arreglo con todo lo que haya en la tabla tipo_clientes
+    $cliente = MvcController::get_cliente_by_id($id_cliente);//Fila que coincida con id_cliente de la tabla clientes
+    $res = MvcController::update_cliente($id_cliente);//Valida el POST del input 'guardar' y actualiza los datos
  ?>
 
 <div class="col-md-9" >

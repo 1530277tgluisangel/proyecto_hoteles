@@ -1,20 +1,19 @@
 <?php
-	if(!isset($_SESSION['usuario'])&&$_SESSION['usuario']['tipo_usuario']!='admin'){
-
+	if(!isset($_SESSION['usuario'])&&$_SESSION['usuario']['tipo_usuario']!='admin'){//Valida que solo un administrador acceda a esta página, si no lo redirecciona al login/dashboard
         $URL="index.php?action=login";
         echo "<script >document.location.href='{$URL}';</script>";
         echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';
     }
 
-    $clientes = MvcController::show_clientes();
-    $habitaciones = MvcController::show_habitaciones();
+    $clientes = MvcController::show_clientes();//Trae todos los registros dentro de la tabla clientes
+    $habitaciones = MvcController::show_habitaciones();//Trae todos los registros dentro de la tabla habitaciones
 
 
-    $id_reservacion = $_GET['id'];
+    $id_reservacion = $_GET['id'];//id_reservacion obtenida por el método POST
     
-    $reservacion = MvcController::get_reservacion_by_id($id_reservacion);
+    $reservacion = MvcController::get_reservacion_by_id($id_reservacion);//Trae solamente el registro que coincida con el id enviado por parámetro
     #var_dump($reservacion);
-    $res = MvcController::update_reservacion($id_reservacion);
+    $res = MvcController::update_reservacion($id_reservacion);//Valida la activación del método POST del botón 'guardar' y realiza la consulta para actualizar todos los datos de la tabla reservacion
 ?>
 
 

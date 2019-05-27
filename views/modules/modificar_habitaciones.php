@@ -1,17 +1,18 @@
 <?php 
-    if(!isset($_SESSION['usuario'])&&$_SESSION['usuario']['tipo_usuario']!='admin'){
+    if(!isset($_SESSION['usuario'])&&$_SESSION['usuario']['tipo_usuario']!='admin'){//Valida que solo un administrador acceda a esta página, si no lo redirecciona al login/dashboard
         $URL="index.php?action=login";
         echo "<script >document.location.href='{$URL}';</script>";
         echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';
     }
 
-    $id_habitacion = $_GET['id'];
+    $id_habitacion = $_GET['id'];//Obtiene el id_habitacion por el método POST
     $tipos = MvcController::get_tipos_habitaciones();//arreglo de consulta a tabla tipos_habitaciones
     $estados = MvcController::get_estados_habitaciones();//arreglo de consulta a tabla estados_habitaciones
-    $habitacion = MvcController::get_habitacion_by_id($id_habitacion);
-    #var_dump($habitacion);
-    #var_dump($habitacion);
+    $habitacion = MvcController::get_habitacion_by_id($id_habitacion);//Trae la fila de la tabla habitaciones que coincida con id_habitacion
     $res = MvcController::update_habitacion($id_habitacion,$habitacion['foto']);
+    /*
+      Esta función tiene 2 caminos, o se ingresó una foto o no. Por si sí o por si no se pasa el nombre de la foto anterior y dentro del método se valida si es que se agregó una foto nueva y en base a eso es que se realiza la consulta para actualizar los datos. 
+    */
  ?>
 <div class="col-md-9" >
           <!-- general form elements -->
@@ -19,24 +20,6 @@
             <div class="box-header with-border">
               <h3 class="box-title">Modificando datos de habitación</h3>
             </div>
-          <?php if($res==1){ ?>
-              <div class="box box-success" style="background: #dff0d8!important;color:green!important;margin:0 auto;width: 70%;">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Notificación</h3>
-
-                  <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                  </div>
-                  <!-- /.box-tools -->
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                  Los datos fueron guardados exitosamente.
-                </div>
-                <!-- /.box-body -->
-              </div>
-              <!-- /.box -->
-          <?php } ?>
             <!-- /.box-header -->
             <!-- form start -->
             <form role="form" method="post" enctype="multipart/form-data">

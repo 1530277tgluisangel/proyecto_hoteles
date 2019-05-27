@@ -111,7 +111,7 @@
           </ul>
         </li>
         <li><a href="index.php?action=dashboard" disable><i class="fa fa-fw fa-line-chart"></i> <span>Visualizar ganancias</span></a></li>
-<?php if($_SESSION['usuario']['tipo_usuario']=="recepcionista"){?>
+<?php if($_SESSION['usuario']['tipo_usuario']=="recepcionista"){ // ?>
         <li><a href="index.php?action=ver_habitaciones" disable><i class="fa fa-fw fa-hotel "></i> <span>Habitaciones</span></a></li>
 <?php }  ?>
         
