@@ -55,7 +55,7 @@
                   <select multiple="" class="form-control" name="tipo_habitacion" id="tipo_habitacion" placeholder="" required>
                       <?php
                           foreach ($tipos as $tipo) {
-                            echo "<option value='$tipo[id]' > Tipo: $tipo[nombre] - Precio: $ $tipo[precio] </option>";
+                            echo "<option value='$tipo[id]' > $tipo[nombre]</option>";
                           }
                       ?>
                   </select>
