@@ -24,7 +24,7 @@
           <!-- general form elements -->
         <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Lista de habitaciones</h3>
+              <h3 class="box-title">Lista de usuarios</h3>
             </div>
             <div class="box-body">
             	<table id="habitaciones" class="table table-bordered table-striped">
