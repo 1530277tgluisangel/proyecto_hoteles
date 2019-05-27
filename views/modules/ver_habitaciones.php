@@ -4,6 +4,7 @@
     	$URL="index.php?action=login";
     	echo "<script >document.location.href='{$URL}';</script>";
 	    echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';
+	    echo "<br>algo<br>";
 	}
     $habitaciones = MvcController::show_habitaciones();//Arreglo con consulta a datos sobre las habitaciones, en archivo controllers/controller.php
 ?>
